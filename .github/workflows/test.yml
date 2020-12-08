@@ -73,15 +73,20 @@ on:
     env:
       BUNDLE_GEMFILE: gemfiles/ar60.gemfile
 
+    continue-on-error: ${{ matrix.experimental }}
+
     strategy:
       matrix:
         ruby: [2.5, 2.6, 2.7, jruby-9.2.6.0]
+        experimental: [false]
         service: [postgres-10]
         port: 5432
         include:
           - ruby: 2.7
             service: [postgres-9-6, postgres-11, postgres-12]
             port: 5433
+          - ruby: jruby-9.2.6.0
+            experimental: true
 
     steps:
       - uses: actions/checkout@v2
