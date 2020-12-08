@@ -12,6 +12,8 @@ jobs:
     # Linux environment required for service containers
     runs-on: ubuntu-latest
 
+    container: debian:latest
+
     # Use the https://hub.docker.com/r/postgis/postgis containers
     # via https://github.com/postgis/docker-postgis
     services:
