@@ -2,13 +2,11 @@ name: Build Container
 
 on:
   workflow_dispatch:
-  # release:
-  #   types: [published]
   schedule:
     - cron: "0 10 * * *" # everyday at 10am
   push:
     branches:
-      - master
+      - '*'
     tags:
       - "v*"
   pull_request_target:
