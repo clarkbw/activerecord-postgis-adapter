@@ -6,7 +6,7 @@ on:
     - cron: "0 10 * * *" # everyday at 10am
   push:
     branches:
-      - '*'
+      - "*"
     tags:
       - "v*"
   pull_request_target:
@@ -24,7 +24,7 @@ jobs:
     strategy:
       matrix:
         postgres: [10, 9.6]
-        postgis: [2.4]
+        postgis: [2.5]
         include:
           - postgres: 11
             postgis: 3.0
