@@ -3,8 +3,6 @@ on:
   pull_request:
   push:
     branches: [master]
-  schedule:
-    - cron: "0 7 * * SUN"
 
 env:
   # BUNDLE_GEMFILE: gemfiles/ar60.gemfile
@@ -50,6 +48,7 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ matrix.ruby }}
+          bundler: none
           # bundler-cache: true # runs 'bundle install' and caches installed gems automatically
 
       - run: bundle exec rake test
