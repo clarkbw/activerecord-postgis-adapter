@@ -7,17 +7,18 @@ on:
   schedule:
     - cron: "0 7 * * SUN"
 
+env:
+  BUNDLE_GEMFILE: gemfiles/ar60.gemfile
+
 jobs:
-  test-runner:
+  postgres-10:
     # Linux environment required for service containers
     runs-on: ubuntu-latest
-
-    container: debian:latest
 
     # Use the https://hub.docker.com/r/postgis/postgis containers
     # via https://github.com/postgis/docker-postgis
     services:
-      postgres-10:
+      postgres:
         image: postgis/postgis:10-3.0
         env:
           POSTGRES_PASSWORD: postgres
@@ -28,74 +29,18 @@ jobs:
           --health-timeout 5s
           --health-retries 5
         ports:
-          # Maps tcp port 5432 on service container to the host
-          - 5432:5432
+          # will assign a random free host port
+          - 5432/tcp
 
-      postgres-9-6:
-        image: postgis/postgis:9.6-3.0
-        env:
-          POSTGRES_PASSWORD: postgres
-        # Set health checks to wait until postgres has started
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-        ports:
-          # Maps tcp port 5432 on service container to the host
-          - 5432:5433
-
-      postgres-11:
-        image: postgis/postgis:11-3.0
-        env:
-          POSTGRES_PASSWORD: postgres
-        # Set health checks to wait until postgres has started
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-        ports:
-          # Maps tcp port 5432 on service container to the host
-          - 5432:5434
-
-      postgres-12:
-        image: postgis/postgis:12-3.0
-        env:
-          POSTGRES_PASSWORD: postgres
-        # Set health checks to wait until postgres has started
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-        ports:
-          # Maps tcp port 5432 on service container to the host
-          - 5432:5435
-
-    env:
-      BUNDLE_GEMFILE: gemfiles/ar60.gemfile
-
-    # continue-on-error: ${{ matrix.experimental }}
+    # continue-on-error: ${{ matrix.ok-to-fail }}
 
     strategy:
       matrix:
         ruby: [2.5, 2.6, 2.7, jruby-9.2.6.0]
-        experimental: [false]
-        service: [postgres-10]
-        port: [5432]
+        ok-to-fail: [false]
         include:
-          - ruby: 2.7
-            service: postgres-9-6
-            port: 5433
-          - ruby: 2.7
-            service: postgres-11
-            port: 5434
-          - ruby: 2.7
-            service: postgres-12
-            port: 5435
           - ruby: jruby-9.2.6.0
-            experimental: true
+            ok-to-fail: true
 
     steps:
       - uses: actions/checkout@v2
@@ -108,5 +53,113 @@ jobs:
 
       - run: bundle exec rake test
         env:
-          POSTGRES_HOST: ${{ matrix.service }}
-          POSTGRES_PORT: ${{ matrix.port }}
+          POSTGRES_HOST: localhost
+          POSTGRES_PORT: ${{ job.services.postgres.ports[5432] }} # get randomly assigned published port
+
+  postgres-9-6:
+    # Linux environment required for service containers
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgis/postgis:9.6-3.0
+        env:
+          POSTGRES_PASSWORD: postgres
+        # Set health checks to wait until postgres has started
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          # will assign a random free host port
+          - 5432/tcp
+
+    strategy:
+      matrix:
+        ruby: [2.7]
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: setup ruby ${{ matrix.ruby }}
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+          bundler-cache: true # runs 'bundle install' and caches installed gems automatically
+
+      - run: bundle exec rake test
+        env:
+          POSTGRES_HOST: localhost
+          POSTGRES_PORT: ${{ job.services.postgres.ports[5432] }} # get randomly assigned published port
+
+  postgres-11:
+    # Linux environment required for service containers
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgis/postgis:11-3.0
+        env:
+          POSTGRES_PASSWORD: postgres
+        # Set health checks to wait until postgres has started
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          # will assign a random free host port
+          - 5432/tcp
+
+    strategy:
+      matrix:
+        ruby: [2.7]
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: setup ruby ${{ matrix.ruby }}
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+          bundler-cache: true # runs 'bundle install' and caches installed gems automatically
+
+      - run: bundle exec rake test
+        env:
+          POSTGRES_HOST: localhost
+          POSTGRES_PORT: ${{ job.services.postgres.ports[5432] }} # get randomly assigned published port
+
+  postgres-12:
+    # Linux environment required for service containers
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgis/postgis:12-3.0
+        env:
+          POSTGRES_PASSWORD: postgres
+        # Set health checks to wait until postgres has started
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          # will assign a random free host port
+          - 5432/tcp
+
+    strategy:
+      matrix:
+        ruby: [2.7]
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: setup ruby ${{ matrix.ruby }}
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+          bundler-cache: true # runs 'bundle install' and caches installed gems automatically
+
+      - run: bundle exec rake test
+        env:
+          POSTGRES_HOST: localhost
+          POSTGRES_PORT: ${{ job.services.postgres.ports[5432] }} # get randomly assigned published port
