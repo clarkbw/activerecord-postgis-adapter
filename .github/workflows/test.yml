@@ -5,7 +5,7 @@ on:
     branches: [master]
 
 env:
-  # BUNDLE_GEMFILE: gemfiles/ar60.gemfile
+  BUNDLE_GEMFILE: gemfiles/ar60.gemfile
   ImageOS: ubuntu20 # needed by setup-ruby https://github.com/ruby/setup-ruby/blob/23b2b5e5f16f1ca741a3d523fccc5a0a548ab8e2/common.js#L59
 
 jobs:
@@ -39,9 +39,6 @@ jobs:
             ok-to-fail: true
 
     steps:
-      - run: ruby --version
-      - run: gem --version
-      - run: bundle --version
       - uses: actions/checkout@v2
 
       - name: setup ruby ${{ matrix.ruby }}
@@ -51,6 +48,7 @@ jobs:
           bundler: none
           # bundler-cache: true # runs 'bundle install' and caches installed gems automatically
 
+      - run: bundle install
       - run: bundle exec rake test
         env:
           POSTGRES_HOST: localhost
@@ -80,9 +78,6 @@ jobs:
         ruby: [2.7]
 
     steps:
-      - run: ruby --version
-      - run: gem --version
-      - run: bundle --version
       - uses: actions/checkout@v2
 
       - name: setup ruby ${{ matrix.ruby }}
@@ -91,6 +86,7 @@ jobs:
           ruby-version: ${{ matrix.ruby }}
           # bundler-cache: true # runs 'bundle install' and caches installed gems automatically
 
+      - run: bundle install
       - run: bundle exec rake test
         env:
           POSTGRES_HOST: localhost
@@ -128,6 +124,7 @@ jobs:
           ruby-version: ${{ matrix.ruby }}
           # bundler-cache: true # runs 'bundle install' and caches installed gems automatically
 
+      - run: bundle install
       - run: bundle exec rake test
         env:
           POSTGRES_HOST: localhost
@@ -165,6 +162,7 @@ jobs:
           ruby-version: ${{ matrix.ruby }}
           # bundler-cache: true # runs 'bundle install' and caches installed gems automatically
 
+      - run: bundle install
       - run: bundle exec rake test
         env:
           POSTGRES_HOST: localhost
