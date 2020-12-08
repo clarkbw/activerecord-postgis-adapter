@@ -1,7 +1,6 @@
+FROM ruby:latest
 ARG POSTGRES_VERSION=10
 ARG POSTGIS_VERSION=2.4
-
-FROM ruby:latest
 RUN set -eux; \
 	\
 	apt-get update; \
