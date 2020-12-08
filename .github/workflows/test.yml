@@ -2,8 +2,7 @@ name: Test ActiveRecord postgis adapter
 on:
   pull_request:
   push:
-    branches-ignore:
-      - gh-pages
+    branches: [master]
   schedule:
     - cron: "0 7 * * SUN"
 
@@ -17,8 +16,6 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: ruby:latest
-    # Use the https://hub.docker.com/r/postgis/postgis containers
-    # via https://github.com/postgis/docker-postgis
     services:
       postgres:
         image: postgis/postgis:10-3.0
@@ -50,7 +47,7 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ matrix.ruby }}
-          bundler-cache: true # runs 'bundle install' and caches installed gems automatically
+          # bundler-cache: true # runs 'bundle install' and caches installed gems automatically
 
       - run: bundle exec rake test
         env:
@@ -87,7 +84,7 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ matrix.ruby }}
-          bundler-cache: true # runs 'bundle install' and caches installed gems automatically
+          # bundler-cache: true # runs 'bundle install' and caches installed gems automatically
 
       - run: bundle exec rake test
         env:
@@ -124,7 +121,7 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ matrix.ruby }}
-          bundler-cache: true # runs 'bundle install' and caches installed gems automatically
+          # bundler-cache: true # runs 'bundle install' and caches installed gems automatically
 
       - run: bundle exec rake test
         env:
@@ -161,7 +158,7 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ matrix.ruby }}
-          bundler-cache: true # runs 'bundle install' and caches installed gems automatically
+          # bundler-cache: true # runs 'bundle install' and caches installed gems automatically
 
       - run: bundle exec rake test
         env:
