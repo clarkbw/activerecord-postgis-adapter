@@ -7,7 +7,7 @@ on:
     - cron: "0 7 * * SUN"
 
 env:
-  BUNDLE_GEMFILE: gemfiles/ar60.gemfile
+  # BUNDLE_GEMFILE: gemfiles/ar60.gemfile
   ImageOS: ubuntu20 # needed by setup-ruby https://github.com/ruby/setup-ruby/blob/23b2b5e5f16f1ca741a3d523fccc5a0a548ab8e2/common.js#L59
 
 jobs:
