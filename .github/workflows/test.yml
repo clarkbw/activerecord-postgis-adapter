@@ -84,7 +84,13 @@ jobs:
         port: [5432]
         include:
           - ruby: 2.7
-            service: [postgres-9-6, postgres-11, postgres-12]
+            service: postgres-9-6
+            port: 5433
+          - ruby: 2.7
+            service: postgres-11
+            port: 5433
+          - ruby: 2.7
+            service: postgres-12
             port: 5433
           - ruby: jruby-9.2.6.0
             experimental: true
