@@ -15,20 +15,6 @@ jobs:
     # Use the https://hub.docker.com/r/postgis/postgis containers
     # via https://github.com/postgis/docker-postgis
     services:
-      postgres-9-6:
-        image: postgis/postgis:9.6-3.0
-        env:
-          POSTGRES_PASSWORD: postgres
-        # Set health checks to wait until postgres has started
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-        ports:
-          # Maps tcp port 5432 on service container to the host
-          - 5432:5433
-
       postgres-10:
         image: postgis/postgis:10-3.0
         env:
@@ -43,6 +29,20 @@ jobs:
           # Maps tcp port 5432 on service container to the host
           - 5432:5432
 
+      postgres-9-6:
+        image: postgis/postgis:9.6-3.0
+        env:
+          POSTGRES_PASSWORD: postgres
+        # Set health checks to wait until postgres has started
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          # Maps tcp port 5432 on service container to the host
+          - 5432:5433
+
       postgres-11:
         image: postgis/postgis:11-3.0
         env:
@@ -55,7 +55,7 @@ jobs:
           --health-retries 5
         ports:
           # Maps tcp port 5432 on service container to the host
-          - 5432:5433
+          - 5432:5434
 
       postgres-12:
         image: postgis/postgis:12-3.0
@@ -69,7 +69,7 @@ jobs:
           --health-retries 5
         ports:
           # Maps tcp port 5432 on service container to the host
-          - 5432:5433
+          - 5432:5435
 
     env:
       BUNDLE_GEMFILE: gemfiles/ar60.gemfile
@@ -88,10 +88,10 @@ jobs:
             port: 5433
           - ruby: 2.7
             service: postgres-11
-            port: 5433
+            port: 5434
           - ruby: 2.7
             service: postgres-12
-            port: 5433
+            port: 5435
           - ruby: jruby-9.2.6.0
             experimental: true
 
