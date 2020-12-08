@@ -9,6 +9,7 @@ on:
 
 env:
   BUNDLE_GEMFILE: gemfiles/ar60.gemfile
+  ImageOS: ubuntu20
 
 jobs:
   postgres-10:
