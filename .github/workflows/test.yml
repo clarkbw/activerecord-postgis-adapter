@@ -14,7 +14,8 @@ jobs:
   postgres-10:
     # Linux environment required for service containers
     runs-on: ubuntu-latest
-
+    container:
+      image: ubuntu:latest
     # Use the https://hub.docker.com/r/postgis/postgis containers
     # via https://github.com/postgis/docker-postgis
     services:
@@ -29,17 +30,16 @@ jobs:
           --health-timeout 5s
           --health-retries 5
         ports:
-          # will assign a random free host port
-          - 5432/tcp
+          - 5432/5432
 
     # continue-on-error: ${{ matrix.ok-to-fail }}
 
     strategy:
       matrix:
-        ruby: [2.5, 2.6, 2.7, jruby-9.2.6.0]
+        ruby: [2.5, 2.6, 2.7]
         ok-to-fail: [false]
         include:
-          - ruby: jruby-9.2.6.0
+          - ruby: jruby-9.2.9.0
             ok-to-fail: true
 
     steps:
@@ -59,6 +59,8 @@ jobs:
   postgres-9-6:
     # Linux environment required for service containers
     runs-on: ubuntu-latest
+    container:
+      image: ubuntu:latest
     services:
       postgres:
         image: postgis/postgis:9.6-3.0
@@ -71,8 +73,7 @@ jobs:
           --health-timeout 5s
           --health-retries 5
         ports:
-          # will assign a random free host port
-          - 5432/tcp
+          - 5432/5432
 
     strategy:
       matrix:
@@ -95,6 +96,8 @@ jobs:
   postgres-11:
     # Linux environment required for service containers
     runs-on: ubuntu-latest
+    container:
+      image: ubuntu:latest
     services:
       postgres:
         image: postgis/postgis:11-3.0
@@ -107,8 +110,7 @@ jobs:
           --health-timeout 5s
           --health-retries 5
         ports:
-          # will assign a random free host port
-          - 5432/tcp
+          - 5432/5432
 
     strategy:
       matrix:
@@ -131,6 +133,8 @@ jobs:
   postgres-12:
     # Linux environment required for service containers
     runs-on: ubuntu-latest
+    container:
+      image: ubuntu:latest
     services:
       postgres:
         image: postgis/postgis:12-3.0
@@ -143,8 +147,7 @@ jobs:
           --health-timeout 5s
           --health-retries 5
         ports:
-          # will assign a random free host port
-          - 5432/tcp
+          - 5432/5432
 
     strategy:
       matrix:
