@@ -7,6 +7,7 @@ on:
   schedule:
     - cron: "0 7 * * SUN"
 
+jobs:
   test-runner:
     # Linux environment required for service containers
     runs-on: ubuntu-latest
