@@ -41,6 +41,9 @@ jobs:
             ok-to-fail: true
 
     steps:
+      - run: ruby --version
+      - run: gem --version
+      - run: bundle --version
       - uses: actions/checkout@v2
 
       - name: setup ruby ${{ matrix.ruby }}
@@ -78,6 +81,9 @@ jobs:
         ruby: [2.7]
 
     steps:
+      - run: ruby --version
+      - run: gem --version
+      - run: bundle --version
       - uses: actions/checkout@v2
 
       - name: setup ruby ${{ matrix.ruby }}
