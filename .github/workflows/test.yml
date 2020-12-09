@@ -53,7 +53,7 @@ jobs:
       - run: bundle install
       - run: bundle exec rake test
         env:
-          PGHOST: ${{ job.services[0] }}
+          PGHOST: postgres # job.services.X
           PGPORT: ${{ job.services.postgres.ports[5432] }}
           PGDATABASE: ${{ job.services.postgres.env['POSTGRES_DB'] }}
           PGUSER: ${{ job.services.postgres.env['POSTGRES_USER'] }}
@@ -93,14 +93,17 @@ jobs:
           ruby-version: ${{ matrix.ruby }}
           bundler: none # hitting bunde install errors
 
+      - run: echo ${{ toJson(job.services) }}
+      - run: echo ${{ toJson(job.services.postgres) }}
+      - run: echo ${{ toJson(job.services.postgres.env) }}
       - run: bundle install
       - run: bundle exec rake test
         env:
-          PGHOST: ${{ job.services[0] }}
+          PGHOST: postgres # job.services.X
           PGPORT: ${{ job.services.postgres.ports[5432] }}
-          PGDATABASE: ${{ job.services.postgres.env['POSTGRES_DB'] }}
-          PGUSER: ${{ job.services.postgres.env['POSTGRES_USER'] }}
-          PGPASSWORD: ${{ job.services.postgres.env['POSTGRES_PASSWORD'] }}
+          PGDATABASE: postgis_adapter_test
+          PGUSER: postgres
+          PGPASSWORD: postgres
 
   postgres-11:
     # Linux environment required for service containers
@@ -139,7 +142,7 @@ jobs:
       - run: bundle install
       - run: bundle exec rake test
         env:
-          PGHOST: ${{ job.services[0] }}
+          PGHOST: postgres # job.services.X
           PGPORT: ${{ job.services.postgres.ports[5432] }}
           PGDATABASE: ${{ job.services.postgres.env['POSTGRES_DB'] }}
           PGUSER: ${{ job.services.postgres.env['POSTGRES_USER'] }}
@@ -182,7 +185,7 @@ jobs:
       - run: bundle install
       - run: bundle exec rake test
         env:
-          PGHOST: ${{ job.services[0] }}
+          PGHOST: postgres # job.services.X
           PGPORT: ${{ job.services.postgres.ports[5432] }}
           PGDATABASE: ${{ job.services.postgres.env['POSTGRES_DB'] }}
           PGUSER: ${{ job.services.postgres.env['POSTGRES_USER'] }}
