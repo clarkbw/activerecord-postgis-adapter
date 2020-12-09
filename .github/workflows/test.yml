@@ -6,7 +6,8 @@ on:
 
 env:
   BUNDLE_GEMFILE: gemfiles/ar60.gemfile
-  ImageOS: ubuntu20 # needed by setup-ruby https://github.com/ruby/setup-ruby/blob/23b2b5e5f16f1ca741a3d523fccc5a0a548ab8e2/common.js#L59
+  # needed by setup-ruby https://github.com/ruby/setup-ruby/blob/23b2b5e5f16f1ca741a3d523fccc5a0a548ab8e2/common.js#L59
+  ImageOS: ubuntu20
 
 jobs:
   postgres-10:
@@ -19,6 +20,8 @@ jobs:
         image: ghcr.io/clarkbw/activerecord-postgis-adapter/postgis-ruby-ci:10-2.5
         env:
           POSTGRES_PASSWORD: postgres
+          POSTGRES_USER: postgres
+          POSTGRES_DB: postgis_adapter_test
         # Set health checks to wait until postgres has started
         options: >-
           --health-cmd pg_isready
@@ -45,14 +48,16 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ matrix.ruby }}
-          bundler: none
-          # bundler-cache: true # runs 'bundle install' and caches installed gems automatically
+          bundler: none # hitting bunde install errors
 
       - run: bundle install
       - run: bundle exec rake test
         env:
-          PGHOST: localhost
-          PGPORT: ${{ job.services.postgres.ports[5432] }} # get randomly assigned published port
+          PGHOST: ${{ job.services[0] }}
+          PGPORT: ${{ job.services.postgres.ports[5432] }}
+          PGDATABASE: ${{ job.services.postgres.env[POSTGRES_DB] }}
+          PGUSER: ${{ job.services.postgres.env[POSTGRES_USER] }}
+          PGPASSWORD: ${{ job.services.postgres.env[POSTGRES_PASSWORD] }}
 
   postgres-9-6:
     # Linux environment required for service containers
@@ -64,6 +69,8 @@ jobs:
         image: ghcr.io/clarkbw/activerecord-postgis-adapter/postgis-ruby-ci:9.6-2.5
         env:
           POSTGRES_PASSWORD: postgres
+          POSTGRES_USER: postgres
+          POSTGRES_DB: postgis_adapter_test
         # Set health checks to wait until postgres has started
         options: >-
           --health-cmd pg_isready
@@ -84,13 +91,16 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ matrix.ruby }}
-          # bundler-cache: true # runs 'bundle install' and caches installed gems automatically
+          bundler: none # hitting bunde install errors
 
       - run: bundle install
       - run: bundle exec rake test
         env:
-          PGHOST: localhost
-          PGPORT: ${{ job.services.postgres.ports[5432] }} # get randomly assigned published port
+          PGHOST: ${{ job.services[0] }}
+          PGPORT: ${{ job.services.postgres.ports[5432] }}
+          PGDATABASE: ${{ job.services.postgres.env[POSTGRES_DB] }}
+          PGUSER: ${{ job.services.postgres.env[POSTGRES_USER] }}
+          PGPASSWORD: ${{ job.services.postgres.env[POSTGRES_PASSWORD] }}
 
   postgres-11:
     # Linux environment required for service containers
@@ -102,6 +112,8 @@ jobs:
         image: ghcr.io/clarkbw/activerecord-postgis-adapter/postgis-ruby-ci:11-3.0
         env:
           POSTGRES_PASSWORD: postgres
+          POSTGRES_USER: postgres
+          POSTGRES_DB: postgis_adapter_test
         # Set health checks to wait until postgres has started
         options: >-
           --health-cmd pg_isready
@@ -122,13 +134,16 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ matrix.ruby }}
-          # bundler-cache: true # runs 'bundle install' and caches installed gems automatically
+          bundler: none # hitting bunde install errors
 
       - run: bundle install
       - run: bundle exec rake test
         env:
-          PGHOST: localhost
-          PGPORT: ${{ job.services.postgres.ports[5432] }} # get randomly assigned published port
+          PGHOST: ${{ job.services[0] }}
+          PGPORT: ${{ job.services.postgres.ports[5432] }}
+          PGDATABASE: ${{ job.services.postgres.env[POSTGRES_DB] }}
+          PGUSER: ${{ job.services.postgres.env[POSTGRES_USER] }}
+          PGPASSWORD: ${{ job.services.postgres.env[POSTGRES_PASSWORD] }}
 
   postgres-12:
     # Linux environment required for service containers
@@ -140,6 +155,8 @@ jobs:
         image: ghcr.io/clarkbw/activerecord-postgis-adapter/postgis-ruby-ci:11-3.0
         env:
           POSTGRES_PASSWORD: postgres
+          POSTGRES_USER: postgres
+          POSTGRES_DB: postgis_adapter_test
         # Set health checks to wait until postgres has started
         options: >-
           --health-cmd pg_isready
@@ -160,10 +177,13 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ matrix.ruby }}
-          # bundler-cache: true # runs 'bundle install' and caches installed gems automatically
+          bundler: none # hitting bunde install errors
 
       - run: bundle install
       - run: bundle exec rake test
         env:
-          PGHOST: localhost
-          PGPORT: ${{ job.services.postgres.ports[5432] }} # get randomly assigned published port
+          PGHOST: ${{ job.services[0] }}
+          PGPORT: ${{ job.services.postgres.ports[5432] }}
+          PGDATABASE: ${{ job.services.postgres.env[POSTGRES_DB] }}
+          PGUSER: ${{ job.services.postgres.env[POSTGRES_USER] }}
+          PGPASSWORD: ${{ job.services.postgres.env[POSTGRES_PASSWORD] }}
