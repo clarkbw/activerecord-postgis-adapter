@@ -50,17 +50,14 @@ jobs:
           ruby-version: ${{ matrix.ruby }}
           bundler: none # hitting bunde install errors
 
-      - run: echo "${{ toJson(job.services) }}"
-      - run: echo "${{ toJson(job.services.postgres) }}"
-      - run: echo "${{ toJson(job.services.postgres.env) }}"
       - run: bundle install
       - run: bundle exec rake test
         env:
-          PGHOST: postgres # job.services.X
+          PGHOST: postgres # job.services.$X
           PGPORT: ${{ job.services.postgres.ports[5432] }}
-          PGDATABASE: ${{ job.services.postgres.env['POSTGRES_DB'] }}
-          PGUSER: ${{ job.services.postgres.env['POSTGRES_USER'] }}
-          PGPASSWORD: ${{ job.services.postgres.env['POSTGRES_PASSWORD'] }}
+          PGDATABASE: postgis_adapter_test
+          PGUSER: postgres
+          PGPASSWORD: postgres
 
   postgres-9-6:
     # Linux environment required for service containers
@@ -99,7 +96,7 @@ jobs:
       - run: bundle install
       - run: bundle exec rake test
         env:
-          PGHOST: postgres # job.services.X
+          PGHOST: postgres # job.services.$X
           PGPORT: ${{ job.services.postgres.ports[5432] }}
           PGDATABASE: postgis_adapter_test
           PGUSER: postgres
@@ -142,11 +139,11 @@ jobs:
       - run: bundle install
       - run: bundle exec rake test
         env:
-          PGHOST: postgres # job.services.X
+          PGHOST: postgres # job.services.$X
           PGPORT: ${{ job.services.postgres.ports[5432] }}
-          PGDATABASE: ${{ job.services.postgres.env['POSTGRES_DB'] }}
-          PGUSER: ${{ job.services.postgres.env['POSTGRES_USER'] }}
-          PGPASSWORD: ${{ job.services.postgres.env['POSTGRES_PASSWORD'] }}
+          PGDATABASE: postgis_adapter_test
+          PGUSER: postgres
+          PGPASSWORD: postgres
 
   postgres-12:
     # Linux environment required for service containers
@@ -185,8 +182,8 @@ jobs:
       - run: bundle install
       - run: bundle exec rake test
         env:
-          PGHOST: postgres # job.services.X
+          PGHOST: postgres # job.services.$X
           PGPORT: ${{ job.services.postgres.ports[5432] }}
-          PGDATABASE: ${{ job.services.postgres.env['POSTGRES_DB'] }}
-          PGUSER: ${{ job.services.postgres.env['POSTGRES_USER'] }}
-          PGPASSWORD: ${{ job.services.postgres.env['POSTGRES_PASSWORD'] }}
+          PGDATABASE: postgis_adapter_test
+          PGUSER: postgres
+          PGPASSWORD: postgres
