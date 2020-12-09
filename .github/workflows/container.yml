@@ -15,7 +15,7 @@ on:
 
 env:
   # TODO: Change variable to your image's name.
-  IMAGE_NAME: ${{ github.repository }}/ruby-postgis
+  IMAGE_NAME: ${{ github.repository }}/postgis-ruby-ci
   # TODO: Set registry. Use docker.io for DockerHub
   REGISTRY: ghcr.io
 
@@ -37,7 +37,11 @@ jobs:
         id: metadata
         uses: crazy-max/ghaction-docker-meta@v1
         with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-${{ matrix.postgres }}-${{ matrix.postgis }}
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          tag-custom: |
+            ${{ matrix.postgres }}-${{ matrix.postgis }}
+          tag-sha: true
+          tag-edge: true
       - uses: docker/setup-buildx-action@v1
 
       - name: Login to ${{ env.REGISTRY }}
