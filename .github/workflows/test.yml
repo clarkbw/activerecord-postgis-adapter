@@ -16,7 +16,7 @@ jobs:
       image: ruby:latest
     services:
       postgres:
-        image: ghcr.io/clarkbw/activerecord-postgis-adapter/ruby-postgis-10-2.5:lights-camera
+        image: ghcr.io/clarkbw/activerecord-postgis-adapter/postgis-ruby-ci:10-2.5
         env:
           POSTGRES_PASSWORD: postgres
         # Set health checks to wait until postgres has started
@@ -51,8 +51,8 @@ jobs:
       - run: bundle install
       - run: bundle exec rake test
         env:
-          POSTGRES_HOST: localhost
-          POSTGRES_PORT: ${{ job.services.postgres.ports[5432] }} # get randomly assigned published port
+          PGHOST: localhost
+          PGPORT: ${{ job.services.postgres.ports[5432] }} # get randomly assigned published port
 
   postgres-9-6:
     # Linux environment required for service containers
@@ -61,7 +61,7 @@ jobs:
       image: ruby:latest
     services:
       postgres:
-        image: ghcr.io/clarkbw/activerecord-postgis-adapter/ruby-postgis-9.6-2.5:lights-camera
+        image: ghcr.io/clarkbw/activerecord-postgis-adapter/postgis-ruby-ci:9.6-2.5
         env:
           POSTGRES_PASSWORD: postgres
         # Set health checks to wait until postgres has started
@@ -89,8 +89,8 @@ jobs:
       - run: bundle install
       - run: bundle exec rake test
         env:
-          POSTGRES_HOST: localhost
-          POSTGRES_PORT: ${{ job.services.postgres.ports[5432] }} # get randomly assigned published port
+          PGHOST: localhost
+          PGPORT: ${{ job.services.postgres.ports[5432] }} # get randomly assigned published port
 
   postgres-11:
     # Linux environment required for service containers
@@ -99,7 +99,7 @@ jobs:
       image: ruby:latest
     services:
       postgres:
-        image: ghcr.io/clarkbw/activerecord-postgis-adapter/ruby-postgis-11-3.0:lights-camera
+        image: ghcr.io/clarkbw/activerecord-postgis-adapter/postgis-ruby-ci:11-3.0
         env:
           POSTGRES_PASSWORD: postgres
         # Set health checks to wait until postgres has started
@@ -127,8 +127,8 @@ jobs:
       - run: bundle install
       - run: bundle exec rake test
         env:
-          POSTGRES_HOST: localhost
-          POSTGRES_PORT: ${{ job.services.postgres.ports[5432] }} # get randomly assigned published port
+          PGHOST: localhost
+          PGPORT: ${{ job.services.postgres.ports[5432] }} # get randomly assigned published port
 
   postgres-12:
     # Linux environment required for service containers
@@ -137,7 +137,7 @@ jobs:
       image: ruby:latest
     services:
       postgres:
-        image: ghcr.io/clarkbw/activerecord-postgis-adapter/ruby-postgis-11-3.0:lights-camera
+        image: ghcr.io/clarkbw/activerecord-postgis-adapter/postgis-ruby-ci:11-3.0
         env:
           POSTGRES_PASSWORD: postgres
         # Set health checks to wait until postgres has started
@@ -165,5 +165,5 @@ jobs:
       - run: bundle install
       - run: bundle exec rake test
         env:
-          POSTGRES_HOST: localhost
-          POSTGRES_PORT: ${{ job.services.postgres.ports[5432] }} # get randomly assigned published port
+          PGHOST: localhost
+          PGPORT: ${{ job.services.postgres.ports[5432] }} # get randomly assigned published port
