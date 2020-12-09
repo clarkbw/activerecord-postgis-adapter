@@ -55,9 +55,9 @@ jobs:
         env:
           PGHOST: ${{ job.services[0] }}
           PGPORT: ${{ job.services.postgres.ports[5432] }}
-          PGDATABASE: ${{ job.services.postgres.env[POSTGRES_DB] }}
-          PGUSER: ${{ job.services.postgres.env[POSTGRES_USER] }}
-          PGPASSWORD: ${{ job.services.postgres.env[POSTGRES_PASSWORD] }}
+          PGDATABASE: ${{ job.services.postgres.env['POSTGRES_DB'] }}
+          PGUSER: ${{ job.services.postgres.env['POSTGRES_USER'] }}
+          PGPASSWORD: ${{ job.services.postgres.env['POSTGRES_PASSWORD'] }}
 
   postgres-9-6:
     # Linux environment required for service containers
@@ -98,9 +98,9 @@ jobs:
         env:
           PGHOST: ${{ job.services[0] }}
           PGPORT: ${{ job.services.postgres.ports[5432] }}
-          PGDATABASE: ${{ job.services.postgres.env[POSTGRES_DB] }}
-          PGUSER: ${{ job.services.postgres.env[POSTGRES_USER] }}
-          PGPASSWORD: ${{ job.services.postgres.env[POSTGRES_PASSWORD] }}
+          PGDATABASE: ${{ job.services.postgres.env['POSTGRES_DB'] }}
+          PGUSER: ${{ job.services.postgres.env['POSTGRES_USER'] }}
+          PGPASSWORD: ${{ job.services.postgres.env['POSTGRES_PASSWORD'] }}
 
   postgres-11:
     # Linux environment required for service containers
@@ -141,9 +141,9 @@ jobs:
         env:
           PGHOST: ${{ job.services[0] }}
           PGPORT: ${{ job.services.postgres.ports[5432] }}
-          PGDATABASE: ${{ job.services.postgres.env[POSTGRES_DB] }}
-          PGUSER: ${{ job.services.postgres.env[POSTGRES_USER] }}
-          PGPASSWORD: ${{ job.services.postgres.env[POSTGRES_PASSWORD] }}
+          PGDATABASE: ${{ job.services.postgres.env['POSTGRES_DB'] }}
+          PGUSER: ${{ job.services.postgres.env['POSTGRES_USER'] }}
+          PGPASSWORD: ${{ job.services.postgres.env['POSTGRES_PASSWORD'] }}
 
   postgres-12:
     # Linux environment required for service containers
@@ -184,6 +184,6 @@ jobs:
         env:
           PGHOST: ${{ job.services[0] }}
           PGPORT: ${{ job.services.postgres.ports[5432] }}
-          PGDATABASE: ${{ job.services.postgres.env[POSTGRES_DB] }}
-          PGUSER: ${{ job.services.postgres.env[POSTGRES_USER] }}
-          PGPASSWORD: ${{ job.services.postgres.env[POSTGRES_PASSWORD] }}
+          PGDATABASE: ${{ job.services.postgres.env['POSTGRES_DB'] }}
+          PGUSER: ${{ job.services.postgres.env['POSTGRES_USER'] }}
+          PGPASSWORD: ${{ job.services.postgres.env['POSTGRES_PASSWORD'] }}
