@@ -50,6 +50,9 @@ jobs:
           ruby-version: ${{ matrix.ruby }}
           bundler: none # hitting bunde install errors
 
+      - run: echo "${{ toJson(job.services) }}"
+      - run: echo "${{ toJson(job.services.postgres) }}"
+      - run: echo "${{ toJson(job.services.postgres.env) }}"
       - run: bundle install
       - run: bundle exec rake test
         env:
@@ -93,9 +96,6 @@ jobs:
           ruby-version: ${{ matrix.ruby }}
           bundler: none # hitting bunde install errors
 
-      - run: echo ${{ toJson(job.services) }}
-      - run: echo ${{ toJson(job.services.postgres) }}
-      - run: echo ${{ toJson(job.services.postgres.env) }}
       - run: bundle install
       - run: bundle exec rake test
         env:
