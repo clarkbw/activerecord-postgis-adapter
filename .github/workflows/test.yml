@@ -15,7 +15,7 @@ jobs:
     # Linux environment required for service containers
     runs-on: ubuntu-latest
     container:
-      image: ruby:latest
+      image: ghcr.io/clarkbw/activerecord-postgis-adapter/postgis-ruby-ci:10-2.5
     services:
       postgres:
         image: ghcr.io/clarkbw/activerecord-postgis-adapter/postgis-ruby-ci:10-2.5
@@ -64,7 +64,7 @@ jobs:
     # Linux environment required for service containers
     runs-on: ubuntu-latest
     container:
-      image: ruby:latest
+      image: ghcr.io/clarkbw/activerecord-postgis-adapter/postgis-ruby-ci:9.6-2.5
     services:
       postgres:
         image: ghcr.io/clarkbw/activerecord-postgis-adapter/postgis-ruby-ci:9.6-2.5
@@ -107,7 +107,7 @@ jobs:
     # Linux environment required for service containers
     runs-on: ubuntu-latest
     container:
-      image: ruby:latest
+      image: ghcr.io/clarkbw/activerecord-postgis-adapter/postgis-ruby-ci:11-3.0
     services:
       postgres:
         image: ghcr.io/clarkbw/activerecord-postgis-adapter/postgis-ruby-ci:11-3.0
@@ -150,7 +150,7 @@ jobs:
     # Linux environment required for service containers
     runs-on: ubuntu-latest
     container:
-      image: ruby:latest
+      image: ghcr.io/clarkbw/activerecord-postgis-adapter/postgis-ruby-ci:11-3.0
     services:
       postgres:
         image: ghcr.io/clarkbw/activerecord-postgis-adapter/postgis-ruby-ci:11-3.0
