@@ -49,8 +49,9 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ matrix.ruby }}
-          # bundler: none # hitting bunde install errors
+          bundler: none # hitting bunde install errors
 
+      - run: gem install bundler
       - run: bundle install
       - run: bundle exec rake test
         env:
@@ -92,8 +93,9 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ matrix.ruby }}
-          # bundler: none # hitting bunde install errors
+          bundler: none # hitting bunde install errors
 
+      - run: gem install bundler
       - run: bundle install
       - run: bundle exec rake test
         env:
@@ -135,8 +137,9 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ matrix.ruby }}
-          # bundler: none # hitting bunde install errors
+          bundler: none # hitting bunde install errors
 
+      - run: gem install bundler
       - run: bundle install
       - run: bundle exec rake test
         env:
@@ -178,8 +181,9 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ matrix.ruby }}
-          # bundler: none # hitting bunde install errors
+          bundler: none # hitting bunde install errors
 
+      - run: gem install bundler
       - run: bundle install
       - run: bundle exec rake test
         env:
