@@ -1,0 +1,194 @@
+name: Test AR postgis adapter
+
+on:
+  pull_request:
+  push:
+    branches: [master]
+
+env:
+  # BUNDLE_GEMFILE: gemfiles/ar60.gemfile
+  # needed by setup-ruby https://github.com/ruby/setup-ruby/blob/23b2b5e5f16f1ca741a3d523fccc5a0a548ab8e2/common.js#L59
+  ImageOS: ubuntu20
+
+jobs:
+  postgres-10:
+    # Linux environment required for service containers
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/clarkbw/activerecord-postgis-adapter/postgis-ruby-ci:10-2.5
+    services:
+      postgres:
+        image: postgis/postgis:10-2.5
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_USER: postgres
+          POSTGRES_DB: postgis_adapter_test
+        # Set health checks to wait until postgres has started
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
+    continue-on-error: ${{ matrix.ok-to-fail }}
+
+    strategy:
+      matrix:
+        ruby: [2.5, 2.6, 2.7]
+        ok-to-fail: [false]
+        include:
+          - ruby: jruby-9.2.9.0
+            ok-to-fail: true
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: setup ruby ${{ matrix.ruby }}
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+          bundler: none # hitting bunde install errors
+
+      - run: gem install bundler
+      - run: bundle install
+      - run: bundle exec rake test
+        env:
+          PGHOST: postgres # job.services.$X
+          PGPORT: ${{ job.services.postgres.ports[5432] }}
+          PGDATABASE: postgis_adapter_test
+          PGUSER: postgres
+          PGPASSWORD: postgres
+
+  postgres-9-6:
+    # Linux environment required for service containers
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/clarkbw/activerecord-postgis-adapter/postgis-ruby-ci:9.6-2.5
+    services:
+      postgres:
+        image: postgis/postgis:9.6-2.5
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_USER: postgres
+          POSTGRES_DB: postgis_adapter_test
+        # Set health checks to wait until postgres has started
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
+    strategy:
+      matrix:
+        ruby: [2.7]
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: setup ruby ${{ matrix.ruby }}
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+          bundler: none # hitting bunde install errors
+
+      - run: gem install bundler
+      - run: bundle install
+      - run: bundle exec rake test
+        env:
+          PGHOST: postgres # job.services.$X
+          PGPORT: ${{ job.services.postgres.ports[5432] }}
+          PGDATABASE: postgis_adapter_test
+          PGUSER: postgres
+          PGPASSWORD: postgres
+
+  postgres-11:
+    # Linux environment required for service containers
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/clarkbw/activerecord-postgis-adapter/postgis-ruby-ci:11-3.0
+    services:
+      postgres:
+        image: postgis/postgis:11-3.0
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_USER: postgres
+          POSTGRES_DB: postgis_adapter_test
+        # Set health checks to wait until postgres has started
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
+    strategy:
+      matrix:
+        ruby: [2.7]
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: setup ruby ${{ matrix.ruby }}
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+          bundler: none # hitting bunde install errors
+
+      - run: gem install bundler
+      - run: bundle install
+      - run: bundle exec rake test
+        env:
+          PGHOST: postgres # job.services.$X
+          PGPORT: ${{ job.services.postgres.ports[5432] }}
+          PGDATABASE: postgis_adapter_test
+          PGUSER: postgres
+          PGPASSWORD: postgres
+
+  postgres-12:
+    # Linux environment required for service containers
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/clarkbw/activerecord-postgis-adapter/postgis-ruby-ci:11-3.0
+    services:
+      postgres:
+        image: postgis/postgis:11-3.0
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_USER: postgres
+          POSTGRES_DB: postgis_adapter_test
+        # Set health checks to wait until postgres has started
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
+    strategy:
+      matrix:
+        ruby: [2.7]
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: setup ruby ${{ matrix.ruby }}
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+          bundler: none # hitting bunde install errors
+
+      - run: gem install bundler
+      - run: bundle install
+      - run: bundle exec rake test
+        env:
+          PGHOST: postgres # job.services.$X
+          PGPORT: ${{ job.services.postgres.ports[5432] }}
+          PGDATABASE: postgis_adapter_test
+          PGUSER: postgres
+          PGPASSWORD: postgres
